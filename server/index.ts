@@ -6,8 +6,6 @@ import route from './src/routes/index'
 import errorHandler from "./src/utils/errorHandler";
 
 
-
-
 const server = express();
 const app = express.Router();
 

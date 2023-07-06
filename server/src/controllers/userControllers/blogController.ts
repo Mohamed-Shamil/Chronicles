@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import asyncHandler from "../../utils/asyncHandler";
 import { BlogHelpers } from "../../helpers/userHelper/blogHelper";
 import { imageUpload } from "../../multer/multer";
-import { posts,post, getOneImage } from "../../config/s3";
+import { posts, post, getOneImage } from "../../config/s3";
 import { userModel } from "../../model/userModel/user";
 
 //HELPER
@@ -21,7 +21,7 @@ const {
   followingListHelper,
   followersListHelper,
   editPost,
-  blogReportHelper
+  blogReportHelper,
 } = BlogHelper;
 
 export const createBlog = asyncHandler(async (req: Request, res: Response) => {
@@ -48,10 +48,10 @@ export const createBlog = asyncHandler(async (req: Request, res: Response) => {
 export const getPost = asyncHandler(async (req: Request, res: Response) => {
   try {
     const response = await getAllPosts();
-    
+
     const postPromise = await posts(response);
     const updatedPosts = await Promise.all(postPromise);
-  
+
     res.status(200).json(updatedPosts);
   } catch (err) {
     throw { err };
@@ -167,9 +167,9 @@ export const getUserPosts = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
     const posts = await UserPostHelper(userId);
-    
+
     const postPromise = await post(posts);
-    
+
     const updatedPost = await Promise.all(postPromise);
 
     res.send(updatedPost);
@@ -180,101 +180,90 @@ export const getUserPosts = async (req: Request, res: Response) => {
 
 export const deletePost = async (req: Request, res: Response) => {
   try {
-    const postId =  req.params.postId;
+    const postId = req.params.postId;
     const response = await deletePostHelper(postId);
-    
+
     return res.status(200).json({ response });
   } catch (err) {
     throw { err };
   }
 };
 
-export const commentBlog = async (req:Request, res: Response) => {
-  try{
-    const postId = req.params.postId;
-  
-    
-    const response = await getCommentHelper(postId)
-    res.json(response)
-  }catch (error) {
-    console.error('Error fetching comments:', error);
-    res.status(500).json({ error: 'Failed to fetch comments' });
-  }
-}
-
-
-export const postComment = async (req:Request, res: Response) => {
+export const commentBlog = async (req: Request, res: Response) => {
   try {
-    
+    const postId = req.params.postId;
+
+    const response = await getCommentHelper(postId);
+    res.json(response);
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    res.status(500).json({ error: "Failed to fetch comments" });
+  }
+};
+
+export const postComment = async (req: Request, res: Response) => {
+  try {
     const postId = req.params.postId;
     const comments = req.body;
 
-    const response = await postCommentHelper(postId,comments)
-    
+    const response = await postCommentHelper(postId, comments);
+
     res.status(201).json(response);
   } catch (error) {
-    console.error('Error submitting comment:', error);
-    res.status(500).json({ error: 'Failed to submit comment' });
+    console.error("Error submitting comment:", error);
+    res.status(500).json({ error: "Failed to submit comment" });
   }
 };
 
 export const followingUsers = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.id
+    const userId = req.params.id;
 
-    const following = await followingListHelper(userId)
-    res.status(200).json(following)
+    const following = await followingListHelper(userId);
+    res.status(200).json(following);
   } catch (err) {
-    throw err
+    throw err;
   }
-}
+};
 
-export const myFollowers = async (req:Request , res: Response) => {
-  try{
-    
-    const userId = req.params.id
+export const myFollowers = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.id;
 
-    const followers = await followersListHelper(userId)
-    res.status(200).json(followers)
-    
-  }catch (err) {
-    throw err
+    const followers = await followersListHelper(userId);
+    res.status(200).json(followers);
+  } catch (err) {
+    throw err;
   }
-}
+};
 
 export const editBlog = async (req: Request, res: Response) => {
   try {
     const uploadHandler = await imageUpload(req as any, res);
     const imageName = await uploadHandler(req as any, res);
-   
-    
+
     const post = {
-      authorId:req.body.autherId,
-      postId:req.body.postId,
+      authorId: req.body.autherId,
+      postId: req.body.postId,
       title: req.body.title,
-      subTitle:req.body.subTitle,
+      subTitle: req.body.subTitle,
       content: req.body.content,
       image: imageName,
-
-    }
-const response = await editPost(post)
- res.send(response)
+    };
+    const response = await editPost(post);
+    res.send(response);
   } catch (error) {
-    res.status(403)
-    throw{error}
+    res.status(403);
+    throw { error };
   }
-}
+};
 
-export const reportBlog = async (req:Request, res: Response) => {
-  try{
+export const reportBlog = async (req: Request, res: Response) => {
+  try {
+    const response = await blogReportHelper(req.body);
 
-    console.log(req.body,"271");
-    
-    const response = await blogReportHelper(req.body)
-    console.log(response,'ddddddd');
-    
-    res.status(200).json(response)
-     
-  }catch(err) 
-  {throw err}
-} 
+    res.status(200).json(response);
+  } catch (err) {
+    throw err;
+  }
+};

@@ -162,15 +162,11 @@ const authAPI = () => {
   }
 
   const reportBlog = async (formData) => {
-    let a = []
+    
     try {
-      for (const [key, value] of formData.entries()) {
-        a.push(value)
-        console.log(`${key}: ${value}`);
-      }
-      console.log(formData);
-      const response = await axiosConfig.post('/reportBlog',a)
-      console.log(response,"sssssssss");
+    
+      const response = await axiosConfig.post('/reportBlog',formData)
+     
       return response
     } catch (error) {
       throw {error}

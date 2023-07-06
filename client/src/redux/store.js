@@ -3,6 +3,7 @@ import {persistReducer } from 'redux-persist'
 import logger from 'redux-logger';
 import  userReducer  from './Slices/userSlice'
 import  postReducer  from './Slices/postSlice'
+import adminReducer from './Slices/adminSlice'
 import storage from 'redux-persist/lib/storage'
 
 const persistConfig = {
@@ -12,10 +13,9 @@ const persistConfig = {
 
 const reducers = combineReducers({
     userReducer,
-    postReducer
+    postReducer,
+    adminReducer
 })
-
-console.log("user reducer data is here", userReducer)
 
 const persistedReducer = persistReducer( persistConfig, reducers)
 

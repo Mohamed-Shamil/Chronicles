@@ -240,16 +240,15 @@ const FullContent = () => {
 
   const handleReport =async (e) => {
     e.preventDefault()
-    let formData = new FormData()
-
+    setShowReportModal(false)
     const reason = await e.target.elements.reason.value
-    formData.append("postId", postId);
-    formData.append("userId", userDetails.id);
-    formData.append("reason",reason)  
-      for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
-      const response = await reportBlog(formData)
+
+    let reportData = {"postId":postId,
+                      "userId":userDetails.id,
+                      "reason":reason}
+  
+  
+      const response = await reportBlog(reportData)
       if(response){
         console.log(response);
       }
@@ -498,27 +497,29 @@ const FullContent = () => {
           <p>{user?.followers.length} followers</p>
 
           <p className="text-center font-medium p-2">{user?.bio}</p>
-          <div className="grid grid-cols-2 gap-4">
-            {followResponse &&
-            followResponse.data.followers.includes(userId) ? (
-              <button
-                onClick={() => unfollowHandler(posts?.authorId, userId)}
-                className="border bg-slate-800 mr-4 p-1 rounded-md text-yellow-300 w-20"
-              >
-                Unfollow
-              </button>
-            ) : (
-              <button
-                onClick={() => followHandler(posts?.authorId, userId)}
-                className="border bg-slate-800 mr-4 p-1 rounded-md text-yellow-300 w-20"
-              >
-                Follow
-              </button>
-            )}
-            <button className="border bg-slate-800 p-1 text-yellow-300 rounded-md w-20">
-              Chat
-            </button>
-          </div>
+         {userId==posts?.authorId ?(""): (
+           <div className="grid grid-cols-2 gap-4">
+           {followResponse &&
+           followResponse.data.followers.includes(userId) ? (
+             <button
+               onClick={() => unfollowHandler(posts?.authorId, userId)}
+               className="border bg-slate-800 mr-4 p-1 rounded-md text-yellow-300 w-20"
+             >
+               Unfollow
+             </button>
+           ) : (
+             <button
+               onClick={() => followHandler(posts?.authorId, userId)}
+               className="border bg-slate-800 mr-4 p-1 rounded-md text-yellow-300 w-20"
+             >
+               Follow
+             </button>
+           )}
+           <button className="border bg-slate-800 p-1 text-yellow-300 rounded-md w-20">
+             Chat
+           </button>
+         </div>
+         )}
         </div>
       </div>
       {showModal ? (

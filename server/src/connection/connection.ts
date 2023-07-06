@@ -3,16 +3,16 @@ import { MyConnectOptions } from "../types/dbConnectionOptions";
 import dotenv from "dotenv";
 dotenv.config();
 
-const mongooseConnect = process.env.MONGOOSE_URL;
+const mongooseConnect = process.env.MONGOOSE_CLUSTER_URL;
 
 const dbOptions: MyConnectOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 };
 
-export const database = () => {
+export const database = () => { 
   mongoose
-    .connect(mongooseConnect as string, dbOptions)
+    .connect(process.env.MONGOOSE_CLUSTER_URL as string , dbOptions)
     .then(() => {
       console.log("database connected successfully");
     })

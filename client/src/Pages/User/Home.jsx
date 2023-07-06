@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import React, { useEffect } from "react";
+import React from "react";
 import Header from "../../Components/navbar/header";
 import Sidebar from "../../Components/sideBar/sidebar";
 import Content from "../../Components/content/content";

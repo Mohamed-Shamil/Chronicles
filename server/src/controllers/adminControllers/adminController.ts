@@ -18,6 +18,8 @@ const {
 
 export const adminLogin = asyncHandler(async (req: Request, res: Response) => {
   try {
+    console.log("hello guys is 21 adminController");
+    
     const response = await doAdminLogin(req.body);
     const adminId = response.id.toString();
 
@@ -29,6 +31,7 @@ export const adminLogin = asyncHandler(async (req: Request, res: Response) => {
     res.status(200).json({
       adminId: adminId,
       adminAccessToken,
+      email:response.email,
       msg: "Admin Logined",
     });
   } catch (error) {

@@ -44,19 +44,17 @@ useEffect(()=>{
   
 
   const handleSubmit = async (e) => {
+    try {
     e.preventDefault();
     const validForm = await isValidForm(e);
     if (!validForm) {
       invalidCredToast();
       return;
     }
-    try {
       const emailVerifyResponse = await verifyUser(loginForm);
       
 
       const { userId, name, email, accessToken } = emailVerifyResponse.data;
-      
-
       dispatch(setDetails({ id: userId, name, email, accessToken }));
 
       navigate("/home");

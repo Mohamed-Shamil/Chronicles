@@ -3,7 +3,7 @@ import {adminLogin,getUsers,getPosts,blockUser,unblockUser,blogReport,getBlogRep
 
 const router = express.Router()
  
-router.post('/',adminLogin)
+router.post('/adminLogin',adminLogin)
 router.get('/viewUsers',getUsers)
 router.get('/viewPosts',getPosts)
 router.post('/blockUser/:userId',blockUser)

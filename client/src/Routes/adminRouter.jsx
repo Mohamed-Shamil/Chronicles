@@ -2,10 +2,9 @@ import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import LodignSpinners from "../Components/loginSpinners/lodignSpinners";
 
-
 function AdminRouter() {
     const AdminLogin = lazy(() => import("../Pages/Admin/AdminLogin"))
-    const AdminTest = lazy(()=> import('../Components/adminComponents/Admintest'))
+    const AdminDashboard = lazy(()=> import('../Pages/Admin/AdminDashboard'))
   return (
     <div>
       {/* Admin SignIn page */}
@@ -22,10 +21,10 @@ function AdminRouter() {
 
 <Route
           exact
-          path="/admin/page"
+          path="/admin/dashboard"
           element={
             <Suspense fallback={<LodignSpinners />}>
-              <AdminTest />
+              <AdminDashboard />
             </Suspense>
           }
         ></Route>

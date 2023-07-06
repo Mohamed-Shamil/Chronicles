@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState } from "react";
+import  { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { resetDetails } from "../../redux/Slices/userSlice";
 import { useDispatch } from "react-redux";

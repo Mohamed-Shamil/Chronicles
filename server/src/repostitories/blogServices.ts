@@ -277,20 +277,8 @@ export class blogRepository {
   }
   async reportBlogService(reportDetails: any) {
     try {
-      console.log("280 blogservice");
-      const arr = reportDetails;
+      const report = await reportModel.create(reportDetails);
 
-      const obj: { [key: string]: string } = {};
-
-      arr.forEach((value: string, index: number) => {
-        obj[`id${index + 1}`] = value;
-      });
-
-      const report = await reportModel.create(obj);
-      console.log(report, "wwwwwwwww 283 blogservice");
-
-
-      
       return report;
     } catch (error) {
       throw error;
